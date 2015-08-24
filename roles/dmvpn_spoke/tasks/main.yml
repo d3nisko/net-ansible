@@ -1,0 +1,4 @@
+---
+- name: Generate DMVPN Spoke configuration files
+  template: src=spoke.j2 dest=../../../output/{{ item.hostname }}.conf
+  with_items: spoke_vars

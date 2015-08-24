@@ -1,0 +1,11 @@
+interface {{ tunnel_int }}
+ ipv6 address {{ tunnel_ipv6 }}/{{ v6_cidr }}
+ ipv6 mtu 1400
+ tunnel source {{ source_ip }}
+ tunnel mode gre multipoint
+ tunnel key {{ tunnel_int }}
+ ipv6 nhrp network-id {{ tunnel_int }}
+ ipv6 nhrp map {{ hub_tunnel_ipv6 }} {{ hub_nmba_ipv4 }}
+ ipv6 nhrp map multicast {{ hub_nmba_ipv4 }}
+ ipv6 nhrp nhs {{ hub_tunnel_ipv4 }}
+ no shut

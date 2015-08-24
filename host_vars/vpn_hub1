@@ -1,0 +1,15 @@
+---
+hub_vars:
+  - { hostname: vpn_hub1,
+      tunnel_int: 123,
+      tunnel_ipv4: 10.0.0.1,
+      network_mask: 255.255.255.0,
+      tunnel_ipv6: '2001:10::1',
+      v6_cidr: 64,
+      source_ip: 111.111.111.111,
+      isakmp_policy: 1,
+      dh_group: 2,
+      transform_set: DMVPN_TRANSFORM,
+      ipsec_profile: DMVPN_IPSEC,
+      preshared_key: O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET,
+      peer_address: 0.0.0.0 }

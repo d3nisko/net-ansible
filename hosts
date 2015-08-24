@@ -1,0 +1,13 @@
+localhost
+
+[all:vars]
+ansible_connection=local
+ansible_ssh_host=localhost
+
+[dmvpn_hub]
+vpn_hub1
+
+[dmvpn_spoke]
+vpn_spoke1
+
+[ipsec_enabled:children]

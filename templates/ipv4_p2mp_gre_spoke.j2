@@ -1,0 +1,11 @@
+interface {{ tunnel_int }}
+ ip address {{ tunnel_ipv4 }} {{ network_mask }}
+ ip mtu 1400
+ tunnel source {{ source_ip }}
+ tunnel mode gre multipoint
+ tunnel key {{ tunnel_int }}
+ ip nhrp network-id {{ tunnel_int }}
+ ip nhrp map {{ hub_tunnel_ipv4 }} {{ hub_nmba_ipv4 }}
+ ip nhrp map multicast {{ hub_nmba_ipv4 }}
+ ip nhrp nhs {{ hub_tunnel_ipv4 }}
+ no shut

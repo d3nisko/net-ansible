@@ -1,0 +1,31 @@
+crypto isakmp policy {{ item.isakmp_policy }} 
+ encr aes
+ authentication pre-share
+ group {{ item.dh_group }}
+!
+crypto ipsec transform-set {{ item.transform_set }} esp-aes esp-sha-hmac 
+ mode tunnel
+!
+crypto ipsec profile {{ item.ipsec_profile }}
+ set transform-set {{ item.transform_set }} 
+!
+crypto isakmp key {{ item.preshared_key }} address {{ item.peer_address }}
+!
+interface tunnel {{ item.tunnel_int }}
+ ip address {{ item.tunnel_ipv4 }} {{ item.network_mask }}
+ ip mtu 1400
+ ipv6 address {{ item.tunnel_ipv6 }}/{{ item.v6_cidr }}
+ ipv6 mtu 1400
+ tunnel source {{ item.source_ip }}
+ tunnel mode gre multipoint
+ tunnel key {{ item.tunnel_int }}
+ ip nhrp network-id {{ item.tunnel_int }}
+ ip nhrp map {{ item.hub_tunnel_ipv4 }} {{ item.hub_nmba_ipv4 }}
+ ip nhrp map multicast {{ item.hub_nmba_ipv4 }}
+ ip nhrp nhs {{ item.hub_tunnel_ipv4 }}
+ ipv6 nhrp network-id {{ item.tunnel_int }}
+ ipv6 nhrp map {{ item.hub_tunnel_ipv6 }} {{ item.hub_nmba_ipv4 }}
+ ipv6 nhrp map multicast {{ item.hub_nmba_ipv4 }}
+ ipv6 nhrp nhs {{ item.hub_tunnel_ipv4 }}
+ tunnel protection ipsec profile {{ item.ipsec_profile }}
+ no shutdown

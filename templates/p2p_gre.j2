@@ -1,0 +1,8 @@
+interface {{ tunnel_int }}
+ ip address {{ tunnel_ip }} {{ network_mask }}
+ ip mtu
+ tunnel source {{ source_ip }}
+ tunnel destination {{ destination_ip }}
+ tunnel mode gre
+ tunnel key {{ tunnel_int }}
+ no shut

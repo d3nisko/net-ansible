@@ -1,0 +1,4 @@
+---
+network_mask: 255.255.255.0
+v6_cidr: 64
+tunnel_int: 123

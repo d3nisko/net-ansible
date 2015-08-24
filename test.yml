@@ -1,0 +1,21 @@
+---
+- hosts: vpn_hub1
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: create dmvpn hub configuration
+    template: src=roles/dmvpn_hub/templates/hub.j2  dest=output/{{ item.hostname }}.conf
+    with_items: hub_vars
+    delegate_to: 127.0.0.1
+
+
+- hosts: vpn_spoke1
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: create dmvpn spoke configuration
+    template: src=roles/dmvpn_spoke/templates/spoke.j2  dest=output/{{ item.hostname }}.conf
+    with_items: spoke_vars
+    delegate_to: 127.0.0.1

@@ -1,0 +1,10 @@
+interface {{ tunnel_int }}
+ ipv6 enable
+ ipv6 address {{ tunnel_ipv6 }}/{{ v6_cidr }}
+ ipv6 mtu 1400
+ tunnel source {{ source_ip }}
+ tunnel mode gre multipoint
+ tunnel key {{ tunnel_int }}
+ ipv6 nhrp network-id {{ tunnel_int }}
+ ipv6 nhrp map multicast dynamic
+ no shut

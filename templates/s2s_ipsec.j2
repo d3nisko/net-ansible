@@ -1,0 +1,15 @@
+crypto isakmp policy {{ isakmp_policy }} 
+ encr aes
+ authentication pre-share
+ group {{ dh_group }}
+!
+crypto ipsec transform-set {{ transform_set }} esp-aes esp-sha-hmac 
+ mode tunnel
+!
+crypto ipsec profile {{ ipsec_profile }}
+ set transform-set {{ transform_set }} 
+!
+crypto isakmp key {{ preshared_key }} address {{ peer_address }}
+!
+int tun {{ tunnel_int }}
+ tunnel protection ipsec profile {{ ipsec_profile }}
