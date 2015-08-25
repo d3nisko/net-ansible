@@ -69,15 +69,8 @@ test.yml:
 
     ---
     - hosts: vpn_hub1
-      connection: local
-      gather_facts: false
- 
-      tasks:
-      - name: create dmvpn hub configuration
-        template: src=roles/dmvpn_hub/templates/hub.j2  dest=output/{{ item.hostname }}.conf
-        with_items: hub_vars
-        delegate_to: 127.0.0.1
- 
+      roles:
+        - dmvpn_hub
  
     - hosts: vpn_spoke1
       connection: local
@@ -89,7 +82,20 @@ test.yml:
         with_items: spoke_vars
         delegate_to: 127.0.0.1
 
-In the playbook, vpn_hub1 is called as a host. It's variables are read from the hosts_vars/vpn_hub1 file, then they are applied against the roles/dmvpn_hub/templates/hub.j2 template and create an output in output/vpn_hub1.conf. The same process is run for vpn_spoke1. In this playbook, ansible doesn't actually attempt to remotely access the devices, but rather processes everything locally. This is due to the 'delegate_to: 127.0.0.1' call. 
+In the playbook, there are two plays. The first play is against the host: vpn_hub1. It immediately calls the role 'dmvpn_hub' to apply against the vpn_hub1 host. If you dig into the roles structure you will find the following directory structure:
+
+    roles/
+         \_dmvpn_hub
+                    \_tasks/main.yml
+                     \_templates/hub.j2
+                      \_vars/main.yml
+
+
+The tasks directory is where the dmvpn_hub role playbooks are stored. In this case, it has the same functionality as what was called on the vpn_spoke1 play. Currently, the vars/main.yml file is empty and the templates/hub.j2 is where the template exists for the DMVPN HUB configuration. 
+
+When the playbook is called, vpn_hub1's variables are read from the hosts_vars/vpn_hub1 file, then they are applied against the roles/dmvpn_hub/templates/hub.j2 template and create an output in output/vpn_hub1.conf. 
+
+The same process is run for vpn_spoke1, with the exception that a role isn't specifically called out, but the play is. In this playbook, ansible doesn't actually attempt to remotely access the devices, but rather processes everything locally. This is due to the 'delegate_to: 127.0.0.1' call. 
 
 Here is the output:
 
