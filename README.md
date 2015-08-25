@@ -93,60 +93,34 @@ In the playbook, vpn_hub1 is called as a host. It's variables are read from the 
 
 Here is the output:
 
-[semper@bastion net-ansible]$ rm -rf output/*
-[semper@bastion net-ansible]$ ansible-playbook -i hosts test.yml 
+    [semper@bastion net-ansible]$ rm -rf output/*
+    [semper@bastion net-ansible]$ ansible-playbook -i hosts test.yml 
+    
+    PLAY [vpn_hub1] *************************************************************** 
 
-PLAY [vpn_hub1] *************************************************************** 
-
-TASK: [create dmvpn hub configuration] **************************************** 
-changed: [vpn_hub1 -> 127.0.0.1] => (item={'transform_set': 'DMVPN_TRANSFORM', 'preshared_key': 'O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET', 'hostname': 'vpn_hub1', 'source_ip': '111.111.111.111', 'isakmp_policy': 1, 'dh_group': 2, 'v6_cidr': 64, 'ipsec_profile': 'DMVPN_IPSEC', 'network_mask': '255.255.255.0', 'tunnel_int': 123, 'peer_address': '0.0.0.0', 'tunnel_ipv6': '2001:10::1', 'tunnel_ipv4': '10.0.0.1'})
-
-PLAY [vpn_spoke1] ************************************************************* 
-
-TASK: [create dmvpn spoke configuration] ************************************** 
-changed: [vpn_spoke1 -> 127.0.0.1] => (item={'hostname': 'vpn_spoke1', 'hub_tunnel_ipv6': '2001:10::1', 'hub_tunnel_ipv4': '10.0.0.1', 'network_mask': '255.255.255.0', 'ipsec_profile': 'DMVPN_IPSEC', 'peer_address': '0.0.0.0', 'tunnel_ipv6': '2001:10::2', 'tunnel_ipv4': '10.0.0.2', 'dh_group': 2, 'preshared_key': 'O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET', 'hub_nmba_ipv4': '111.111.111.111', 'source_ip': '222.222.222.222', 'isakmp_policy': 1, 'transform_set': 'DMVPN_TRANSFORM', 'v6_cidr': 64, 'tunnel_int': 123})
-
-PLAY RECAP ******************************************************************** 
-vpn_hub1                   : ok=1    changed=1    unreachable=0    failed=0   
-vpn_spoke1                 : ok=1    changed=1    unreachable=0    failed=0   
-
-[semper@bastion net-ansible]$ cat output/vpn_hub1.conf 
-crypto isakmp policy 1 
- encr aes
- authentication pre-share
- group 2
-!
-crypto ipsec transform-set DMVPN_TRANSFORM esp-aes esp-sha-hmac 
- mode tunnel
-!
-crypto ipsec profile DMVPN_IPSEC
- set transform-set DMVPN_TRANSFORM 
-!
-crypto isakmp key O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET address 0.0.0.0
-!
-interface tunnel 123
- ip address 10.0.0.1 255.255.255.0
- ip mtu 1400
- ipv6 address 2001:10::1/64
- ipv6 mtu 1400
- tunnel source 111.111.111.111
- tunnel mode gre multipoint
- tunnel key 123
- ip nhrp network-id 123
- ip nhrp map multicast dynamic
- ipv6 nhrp network-id 123
- ipv6 nhrp map multicast dynamic
- tunnel protection ipsec profile DMVPN_IPSEC
- no shutdown
-[semper@bastion net-ansible]$ vim t
-
+    TASK: [create dmvpn hub configuration] **************************************** 
+    changed: [vpn_hub1 -> 127.0.0.1] => (item={'transform_set': 'DMVPN_TRANSFORM', 'preshared_key': 'O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET', 'hostname': 'vpn_hub1', 'source_ip': '111.111.111.111', 'isakmp_policy': 1, 'dh_group': 2, 'v6_cidr': 64, 'ipsec_profile': 'DMVPN_IPSEC', 'network_mask': '255.255.255.0', 'tunnel_int': 123, 'peer_address': '0.0.0.0', 'tunnel_ipv6': '2001:10::1', 'tunnel_ipv4': '10.0.0.1'})
+    
+    PLAY [vpn_spoke1] ************************************************************* 
+    
+    TASK: [create dmvpn spoke configuration] ************************************** 
+    changed: [vpn_spoke1 -> 127.0.0.1] => (item={'hostname': 'vpn_spoke1', 'hub_tunnel_ipv6': '2001:10::1', 'hub_tunnel_ipv4': '10.0.0.1', 'network_mask': '255.255.255.0', 'ipsec_profile': 'DMVPN_IPSEC', 'peer_address': '0.0.0.0', 'tunnel_ipv6': '2001:10::2', 'tunnel_ipv4': '10.0.0.2', 'dh_group': 2, 'preshared_key': 'O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET', 'hub_nmba_ipv4': '111.111.111.111', 'source_ip': '222.222.222.222', 'isakmp_policy': 1, 'transform_set': 'DMVPN_TRANSFORM', 'v6_cidr': 64, 'tunnel_int': 123})
+    
+    PLAY RECAP ******************************************************************** 
+    vpn_hub1                   : ok=1    changed=1    unreachable=0    failed=0   
+    vpn_spoke1                 : ok=1    changed=1    unreachable=0    failed=0   
+    
+    [semper@bastion net-ansible]$ cat output/vpn_hub1.conf 
+    crypto isakmp policy 1 
+     encr aes
+     authentication pre-share
      group 2
     !
-    crypto ipsec transform-set DMVPN_TRANSFORM esp-aes esp-sha-hmac
+    crypto ipsec transform-set DMVPN_TRANSFORM esp-aes esp-sha-hmac 
      mode tunnel
     !
     crypto ipsec profile DMVPN_IPSEC
-     set transform-set DMVPN_TRANSFORM
+     set transform-set DMVPN_TRANSFORM 
     !
     crypto isakmp key O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET address 0.0.0.0
     !
