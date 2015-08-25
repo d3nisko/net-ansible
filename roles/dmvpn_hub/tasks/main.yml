@@ -1,5 +1,5 @@
 ---
-- name: Generate DMVPN Hub configuration files
+- name: create dmvpn hub configuration 
   template: src=hub.j2 dest=../output/{{ item.hostname }}.conf
   with_items: hub_vars
   delegate_to: 127.0.0.1
