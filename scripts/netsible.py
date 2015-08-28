@@ -7,7 +7,7 @@ from os.path import expanduser
 import sys
 
 creds = simple_yaml()
-base_dir = expanduser("~/netsible")
+base_dir = expanduser("~/net-ansible")
 hostname = sys.argv[1]
 command_file = sys.argv[2]
 ssh = SSH(hostname, creds['username'], creds['password'])

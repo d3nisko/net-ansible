@@ -13,5 +13,5 @@ vpn_spoke1
 [ipsec_enabled:children]
 
 [netdevices]
-router1
-router2
+darkstar
+core1a

@@ -1,7 +1,0 @@
----
- - ipsec_vars: { isakmp_policy: 1,
-                 dh_group: 2,
-                 transform_set: DMVPN_TRANSFORM,
-                 ipsec_profile: DMVPN_IPSEC,
-                 preshared_key: O5DXCYSJRNipNnfZ2eVm6JJvEcr2OvksWWZ0hTk2hwcpe8mz1AulEveGSyeg2MET,
-                 peer_address: 0.0.0.0 }
