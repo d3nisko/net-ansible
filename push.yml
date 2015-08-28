@@ -1,0 +1,15 @@
+---
+- hosts: netdevices
+  connection: local
+  gather_facts: no
+  
+  tasks:
+  - name: Create SNMP Configuration
+    template:
+      src=templates/snmp-contact.j2
+      dest=input/{{ hostname }}.conf
+    delegate_to: 127.0.0.1
+
+  - name: Configure SNMP Contact on network device
+    command: scripts/netsible.py {{ hostname }} input/{{ hostname }}.conf 
+    delegate_to: 127.0.0.1

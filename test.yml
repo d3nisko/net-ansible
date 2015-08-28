@@ -1,9 +1,9 @@
 ---
-- hosts: vpn_hub1
+- hosts: dmvpn_hub 
   roles: 
     - dmvpn_hub
 
-- hosts: vpn_spoke1
+- hosts: dmvpn_spoke
   connection: local
   gather_facts: false
 

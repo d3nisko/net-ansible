@@ -11,3 +11,7 @@ vpn_hub1
 vpn_spoke1
 
 [ipsec_enabled:children]
+
+[netdevices]
+router1
+router2
