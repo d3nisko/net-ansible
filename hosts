@@ -15,3 +15,9 @@ vpn_spoke1
 [netdevices]
 darkstar
 core1a
+
+[aggregation_routers]
+aggra-1
+aggrb-1
+aggra-2
+aggrb-2

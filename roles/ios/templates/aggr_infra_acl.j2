@@ -1,0 +1,9 @@
+ip access-list extended test-acl 
+  remark deny spoofing
+{% for src in item.sources %}
+  deny {{ src }} any
+{% endfor %}
+  remark permit own sources
+{% for prefix in advertised_prefixes %}
+  permit {{ prefix }} any
+{% endfor %}

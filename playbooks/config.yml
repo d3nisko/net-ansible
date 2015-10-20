@@ -1,0 +1,13 @@
+---
+- hosts: dmvpn_hub 
+  roles: 
+    - dmvpn_hub
+
+- hosts: dmvpn_spoke
+  roles:
+    - dmvpn_spoke
+
+- hosts: aggregation_routers
+  roles:
+    - ios
+    - nx-os

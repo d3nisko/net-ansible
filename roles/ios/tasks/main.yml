@@ -1,0 +1,8 @@
+---
+- name: create aggregation router infrastructure access-list
+  template:
+    src="aggr_infra_acl.j2"
+    dest="../output/{{ hostname }}.conf"
+  when: (platform == "ios" and network_role == "aggr")
+  with_items: infrastructure_acl 
+  delegate_to: 127.0.0.1

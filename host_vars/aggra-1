@@ -1,0 +1,4 @@
+---
+hostname: aggra-1
+platform: ios
+network_role: aggr

@@ -1,0 +1,4 @@
+---
+hostname: aggra-2
+platform: nx-os 
+network_role: aggr

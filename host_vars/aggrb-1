@@ -1,0 +1,4 @@
+---
+hostname: aggrb-1
+platform: ios
+network_role: aggr
