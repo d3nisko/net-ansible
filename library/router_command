@@ -16,11 +16,10 @@ requirements:
 options:
   connection:
     description:
-      - connect to device using netlib (SSH or Telnet) or read offline file
-        for testing
+      - connect to device using ssh or telnet
     required: false
     default: ssh
-    choices: ['ssh', 'telnet', 'offline']
+    choices: ['ssh', 'telnet']
     aliases: []
   command:
     description:
@@ -196,7 +195,7 @@ class Telnet(object):
 if __name__ == "__main__":
     module = AnsibleModule(
         argument_spec=dict(
-            connection=dict(choices=['ssh', 'telnet', 'offline'],
+            connection=dict(choices=['ssh', 'telnet'],
                             default='ssh'),
             command=dict(required=False),
             command_file=dict(required=False),
@@ -216,17 +215,17 @@ if __name__ == "__main__":
     password = module.params['password']
     enable_password = module.params['enable_password']
 
-    if connection == 'ssh':
+    if connection == 'telnet':
+        device = Telnet(device_name=hostname,
+                        username=username,
+                        password=password,
+                        delay=2)
+    else:
         device = SSH(device_name=hostname,
                      username=username,
                      password=password,
                      buffer=4096,
                      delay=3)
-    elif connection == 'telnet':
-        device = Telnet(device_name=hostname,
-                        username=username,
-                        password=password,
-                        delay=2)
 
     device.connect()
 
