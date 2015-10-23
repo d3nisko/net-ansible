@@ -1,0 +1,15 @@
+- hosts: netdevices
+  gather_facts: False
+
+  tasks:
+
+  - name: show version
+    router_command:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      enable_password: "{{ netdev_enable_pass }}" 
+      command: "show version"
+    register: result
+
+  - debug: var=result
