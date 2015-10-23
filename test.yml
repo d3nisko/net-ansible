@@ -3,13 +3,30 @@
 
   tasks:
 
-  - name: show version
+  - name: running telnet? 
     router_command:
       hostname: "{{ inventory_hostname }}"
       username: "{{ ansible_ssh_user }}"
       password: "{{ ansible_ssh_pass }}"
       enable_password: "{{ netdev_enable_pass }}" 
-      command: "show version"
+      command_file: "test_file.txt"
     register: result
 
-  - debug: var=result
+  - debug: var=result.response
+
+  - name: disable telnet
+    router_command:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      enable_password: "{{ netdev_enable_pass }}" 
+      command: 
+        - config t
+        - line vty 0 15
+        - transport input ssh
+        - end
+        - copy run start
+    when: "'telnet' in {{ result.response }}"
+    register: result
+
+  - debug: var=result.response

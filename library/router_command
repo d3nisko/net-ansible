@@ -234,9 +234,20 @@ if __name__ == "__main__":
         device.set_enable(enable_password)
 
     device.disable_paging()
-    raw_output = device.command(command)
+
+    output = []
+    if command_file:
+        if os.path.isfile(command_file):
+            with open(command_file, 'r') as f:
+                for cmd in f:
+                    cmd = cmd.strip()
+                    output.append(device.command(cmd))
+        else:
+            module.fail_json(msg="Unable to locate{}".format(command_file))
+    else:
+        output.append(device.command(command))
 
     results = {}
-    results['response'] = raw_output
+    results['response'] = output
 
     module.exit_json(**results)
